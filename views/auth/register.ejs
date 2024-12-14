@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROBO Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="uploads/logo.png" type="image/png">
+  <style>
+    @layer utilities {
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <div class="flex flex-grow">
+        <%- include('../partials/sidebar.ejs', { user: user, isLoggedIn: isLoggedIn, activeMenu: activeMenu }) %>
+        <div class="flex-grow flex items-center justify-center">
+            <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
+              <!-- Title -->
+              <h2 class="text-xl font-semibold mb-2">JOIN ROBO FOR FREE</h2>
+              <p class="text-gray-600 text-sm mb-6">Community, tools, and exposure for photographers.</p>
+          
+              <!-- Form -->
+              <form action="/auth/register" method="POST" class="space-y-4">
+                <!-- Email Field -->
+                <div>
+                  <label for="email" class="sr-only">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Email"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:ring focus:ring-blue-300 focus:outline-none text-sm"
+                    required
+                  />
+                </div>
+          
+                <!-- Password Field -->
+                <div class="relative">
+                  <label for="password" class="sr-only">Password</label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Password"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:ring focus:ring-blue-300 focus:outline-none text-sm"
+                    required
+                    minlength="8"
+                    pattern=".*[A-Za-z].*.*[0-9].*"
+                  />
+                  <button
+                  type="button"
+                  class="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                  onclick="togglePassword()"
+                >
+                  <!-- Eye Open Icon -->
+                  <svg
+                    id="eyeOpenIcon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 block"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
+                  </svg>
+                  <!-- Eye Closed Icon -->
+                  <svg
+                    id="eyeClosedIcon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 hidden"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3.98 8.49A9.953 9.953 0 012 12c1.274 4.057 5.065 7 9.542 7 2.475 0 4.736-.768 6.518-2.042m2.48-3.98a9.953 9.953 0 01-1.48 1.508M9.828 9.828a3 3 0 104.242 4.242m1.415-6.657A9.956 9.956 0 0012 5c-2.475 0-4.736.768-6.518 2.042m6.519-2.042l-1.415 1.415m0 0a9.956 9.956 0 011.414 1.414m0 0L12 12m0 0a3 3 0 01-3 3"
+                    />
+                  </svg>
+                </button>
+                </div>
+          
+                <!-- Username Field -->
+                <div>
+                  <label for="username" class="sr-only">Username</label>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Username"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:ring focus:ring-blue-300 focus:outline-none text-sm"
+                    required
+                  />
+                </div>
+          
+                <!-- Terms and Agreement -->
+                <p class="text-gray-500 text-xs">
+                  By signing up, you agree to ROBO’s 
+                  <a href="#" class="text-blue-600 hover:underline">Terms of Use</a> & 
+                  <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a>.
+                </p>
+          
+                <!-- Sign Up Button -->
+                <button
+                  type="submit"
+                  class="w-full bg-black text-white py-2 rounded text-sm font-medium"
+                >
+                  SIGN UP AND AGREE
+                </button>
+              </form>
+          
+              <!-- Divider -->
+              <div class="flex items-center my-6">
+                <hr class="flex-grow border-gray-300">
+                <span class="mx-3 text-sm text-gray-400">or</span>
+                <hr class="flex-grow border-gray-300">
+              </div>
+          
+              <!-- Social Buttons -->
+              <div class="space-y-3">
+                <button
+                  type="button"
+                  class="flex items-center justify-center w-full py-2 px-4 border border-gray-300 rounded text-sm hover:bg-gray-100"
+                  onclick="window.location.href='/auth/login/google'"
+                >
+                  <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" class="h-5 w-5 mr-2">
+                  Sign up with Google
+                </button>
+              </div>
+          
+              <!-- Already have an account -->
+              <div class="mt-6 text-center">
+                <p class="text-sm text-gray-500">
+                  Already have an account? 
+                  <a href="/auth/login" class="text-blue-600 hover:underline">LOG IN</a>
+                </p>
+              </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../partials/footer.ejs') %>
+
+    <script>
+    function togglePassword() {
+    const passwordInput = document.getElementById("password");
+    const eyeOpenIcon = document.getElementById("eyeOpenIcon");
+    const eyeClosedIcon = document.getElementById("eyeClosedIcon");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        eyeOpenIcon.classList.add("hidden");
+        eyeClosedIcon.classList.remove("hidden");
+    } else {
+        passwordInput.type = "password";
+        eyeOpenIcon.classList.remove("hidden");
+        eyeClosedIcon.classList.add("hidden");
+    }
+    }
+    </script>
+</body>
+</html>

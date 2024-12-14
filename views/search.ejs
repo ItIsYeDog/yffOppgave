@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROBO Photo Editor & Video Editor - Desktop app</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="icon" href="uploads/logo.png" type="image/png">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
+    <script src="js/script.js" defer></script>
+  <style>
+    @layer utilities {
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  </style>
+</head>
+<html>
+    <body>
+        <div class="flex">
+            <%- include('partials/sidebar.ejs', { user: user, isLoggedIn: isLoggedIn, activeMenu: activeMenu }) %>
+
+            <div class="container mx-auto px-6 py-8 h-dvh">
+
+                <div class="flex justify-center items-center mb-6">
+                    <h1 class="text-4xl font-semibold text-gray-800">Search</h1>
+                </div>
+
+                <div class="flex justify-center mb-6 border-b-2 border-gray-300">
+                    <input type="text" placeholder="Search" class="w-1/3 p-3 rounded-full focus:outline-none focus:ring-blue-500">
+                </div>
+
+                <div class="flex justify-center space-x-10 pb-4">
+                    <button class="text-lg font-small text-black hover:text-blue-600 focus:outline-none">People</button>
+                    <button class="text-lg font-small text-gray-500 hover:text-blue-600 focus:outline-none">Images</button>
+                    <button class="text-lg font-small text-gray-500 hover:text-blue-600 focus:outline-none">Blogs</button>
+                </div>
+            </div>
+        </div>
+        <%- include('partials/footer.ejs') %>
+    </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Callback</title>
+</head>
+<body>
+  <h1>Processing Login...</h1>
+  <script>
+    window.onload = function() {
+      // Extract the access_token and refresh_token from the URL query parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const accessToken = urlParams.get('access_token');
+      const refreshToken = urlParams.get('refresh_token');
+    
+      console.log('Extracted access_token:', accessToken);  // Log to check the token
+      console.log('Extracted refresh_token:', refreshToken);
+    
+      if (accessToken && refreshToken) {
+        fetch('/auth/callback', {
+          method: 'GET',  // Use GET since it's coming from a redirect
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            access_token: accessToken,  // Send the access token
+            refresh_token: refreshToken // Optionally send the refresh token
+          })
+        })
+        .then(response => {
+          if (response.ok) {
+            window.location.href = '/profile';  // Redirect to profile after successful login
+          } else {
+            alert('Login failed');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      } else {
+        alert('Missing tokens');
+      }
+    };
+    </script>
+</body>
+</html>

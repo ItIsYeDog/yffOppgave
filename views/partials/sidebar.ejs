@@ -1,0 +1,48 @@
+<aside class="w-40 bg-black min-h-screen flex flex-col justify-between py-8 px-4 fixed">
+  <div class="space-y-8">
+  <a href="/"><h1 class="flex items-center text-sm uppercase text-white tracking-wide">
+      <img src="/uploads/logo.png" alt="Logo Icon" class="icon mr-2 w-12 h-12">
+      ROBO
+    </h1>
+  </a>      
+    <nav class="space-y-6 pt-8">
+      <a href="/" class="flex py-1 items-center text-white text-sm hover:opacity-80 <%= activeMenu === 'home' ? 'border-r-2 border-white' : '' %>">
+        <img src="https://img.icons8.com/ios-filled/30/ffffff/globe.png" alt="Feed Icon" class="icon mr-3">
+        FEED
+      </a>
+      <a href="/studio" class="flex py-1 items-center text-white text-sm hover:opacity-80 <%= activeMenu === 'studio' ? 'border-r-2 border-white' : '' %>">
+        <img src="https://img.icons8.com/ios-filled/30/ffffff/edit-property.png" alt="Studio Icon" class="icon mr-3">
+        STUDIO
+      </a>
+      <% if (user) { %>
+        <a href="/profile/<%= user.username %>" class="flex py-1 items-center text-white text-sm hover:opacity-80 <%= activeMenu === 'profile' ? 'border-r-2 border-white' : '' %>">
+          <img src="https://img.icons8.com/ios-filled/30/ffffff/user-male.png" alt="Profile Icon" class="icon mr-3">
+          PROFILE
+        </a>
+        <% } %>
+      <a href="/search" class="flex py-1 items-center text-white text-sm hover:opacity-80 <%= activeMenu === 'search' ? 'border-r-2 border-white' : '' %>">
+        <img src="https://img.icons8.com/ios-filled/30/ffffff/search.png" alt="Search Icon" class="icon mr-3">
+        SEARCH
+      </a>
+      <a href="#" class="flex py-1 items-center text-white text-sm hover:opacity-80 <%= activeMenu === 'learn' ? 'border-r-2 border-white' : '' %>">
+        <img src="https://img.icons8.com/ios-filled/30/ffffff/book.png" alt="Learn Icon" class="icon mr-3">
+        LEARN
+      </a>
+      <a href="#" class="flex pt-10 items-center text-white text-sm hover:opacity-80 <%= activeMenu === 'hub' ? 'border-r-2 border-white' : '' %>">
+        <img src="https://img.icons8.com/ios-filled/30/ffffff/down.png" alt="Hub Icon" class="icon mr-3">
+        HUB
+        <span class="ml-auto text-white text-xs">→</span>
+      </a>
+    </nav>
+  </div>
+  <% if (!isLoggedIn) { %>
+<div class="flex flex-col items-stretch space-y-4 px-4">
+  <a href="/auth/register" class="text-center py-2 text-sm font-medium bg-white text-black rounded-full hover:bg-gray-200">
+    Sign Up
+  </a>
+  <a href="/auth/login" class="text-center py-2 text-sm font-medium border border-white text-white rounded-full hover:bg-gray-800">
+    Log In
+  </a>
+</div>
+<% } %>
+</aside>

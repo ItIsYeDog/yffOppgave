@@ -1,0 +1,183 @@
+<% if (user) { %>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>ROBO Photo Editor & Video Editor - Desktop app</title>
+      <script src="https://cdn.tailwindcss.com"></script>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+      <link rel="icon" href="/uploads/logo.png" type="image/png">
+      <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
+      <script src="/js/script.js" defer></script>
+    <style>
+      @layer utilities {
+        .icon {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    </style>
+  </head>
+  <html>
+  
+  <body class="overflow-x-hidden">
+    <div class="flex min-h-screen w-full">
+      <%- include('partials/sidebar.ejs') %>
+      <div class="flex-grow flex flex-col items-center bg-white ml-40 w-full">
+        <div class="w-full max-w-screen-lg flex flex-col items-center py-2 px-4">
+          <header class="w-full flex items-center justify-between px-6 py-4">
+            <% if (isOwner) { %>
+              <div class="flex items-center space-x-4">
+                <button 
+                  aria-label="Logout"
+                  class="flex items-center space-x-2 px-4 py-2 text-sm font-medium bg-black border border-solid border-white text-white rounded-full hover:opacity-70"
+                  onclick="logOut()">
+                  <img src="https://img.icons8.com/?size=20&id=2445&format=png&color=FFFFFF" alt="Log Out">
+                  <span>Log Out</span>
+                </button>
+              </div>
+              <div class="flex items-center space-x-4 ml-auto">
+              <button 
+                aria-label="Edit Bio"
+                class="flex items-center space-x-2 px-4 py-2 text-sm font-medium bg-black text-white rounded-full hover:opacity-70"
+                onclick="toggleEditBioModal()">
+                <img src="https://img.icons8.com/ios-filled/20/ffffff/globe.png" alt="Edit Bio">
+                <span>Edit Bio</span>
+              </button>
+              <div id="editBioModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+                <div class="bg-white rounded-lg p-8 w-full max-w-md">
+                  <h2 class="text-xl font-semibold mb-4">Edit Bio</h2>
+                  <form action="/profile/updateBio" method="POST">
+                    <textarea name="bio" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring focus:ring-blue-500 focus:outline-none text-sm"><%= profile.bio %></textarea>
+                    <div class="mt-4 flex justify-end space-x-2">
+                      <button type="button" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" onclick="toggleEditBioModal()">Cancel</button>
+                      <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Save</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <form id="profilePicForm" action="/profile/uploadProfilePicture" method="POST" enctype="multipart/form-data">
+                <div class="flex items-center justify-center w-8 h-8 rounded-full border border-gray-400">
+                  <label for="profilePicture" class="cursor-pointer">
+                    <img src="https://img.icons8.com/ios-filled/16/000000/edit.png" alt="Edit">
+                  </label>
+                  <input
+                    type="file"
+                    name="profilePicture"
+                    id="profilePicture"
+                    class="hidden"
+                  >
+                </div>
+              </form>
+            <% } %>
+            </div>
+          </header>
+        
+          <main class="w-full max-w-screen-lg flex flex-col items-center py-2 px-4">
+            <div class="w-full -mx-4">
+              <hr class="w-full border-gray-300 my-4" />
+            </div>
+            <div class="w-full max-w-screen-lg py-8 flex flex-row items-top">
+              <div class="rounded-full bg-gray-200 w-36 h-36 flex items-center justify-center">
+                <img src="<%= profile.profilePicture %>" alt="Profile" class="profile-picture rounded-full">
+              </div>
+              <div class="flex flex-col p-8">
+                <h2 class="text-4xl font-medium"><%= user.username %></h2>
+                <p class="text-gray-600 mt-2"><%= profile.bio %></p>
+              </div>
+            </div>
+        
+          <hr class="w-full border-gray-300 my-6" />
+  
+          <% if (isOwner) { %>
+            <button
+              aria-label="Add New Post"
+              class="w-8 h-8 flex items-center bg-black text-white rounded-full ml-auto hover:opacity-50"
+              onclick="toggleMakePost()">
+              <span class="text-xl m-auto">+</span>
+            </button>
+  
+            <div id="makePost" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+              <div class="bg-white rounded-lg p-8 w-full max-w-lg">
+                <div class="flex justify-between items-center mb-4">
+                  <h2 class="text-xl font-semibold text-black">Create a Post</h2>
+                  <button class="text-black" onclick="toggleMakePost()">&times;</button>
+                </div>
+                <form id="imagePictureForm" action="/profile/uploadImagePost" method="POST" enctype="multipart/form-data">
+                  <div class="flex items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg mb-4">
+                    <label for="imagePost" class="cursor-pointer flex flex-col items-center justify-center">
+                      <img src="https://img.icons8.com/?size=100&id=60019&format=png&color=000000" alt="Upload Image" class="mb-2">
+                      <span class="text-gray-500">Click to upload an image</span>
+                    </label>
+                    <input
+                      type="file"
+                      name="imagePost"
+                      id="imagePost"
+                      class="hidden"
+                    >
+                  </div>
+                  <div class="flex justify-end space-x-2">
+                    <button type="button" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" onclick="toggleMakePost()">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Post</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          <% } %>
+  
+          <% if (profile.postImages.length > 0) { %>
+          <div class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-8">
+            <% profile.postImages.forEach(function(image) { %>
+              <div class="w-full h-72 overflow-hidden">
+                <img src="<%= image %>" alt="Post Image" class="w-full h-full object-contain">
+              </div>
+            <% }) %>
+          </div>
+          <% } else { %>
+        
+            <p class="text-gray-400 text-sm text-center mt-20">
+              <%= user.username %> HASN'T POSTED YET
+            </p>
+          <% } %>
+          </main>
+        </div>
+      </div>
+    </div>
+      <%- include('partials/footer.ejs') %>
+    </body>
+  
+    <script>
+      document.getElementById('profilePicture').addEventListener('change', function() {
+        const form = document.getElementById('profilePicForm');
+        form.method = 'POST';
+        form.enctype = 'multipart/form-data';
+        form.submit();
+      });
+      
+      document.getElementById('imagePost').addEventListener('change', function() {
+        const form = document.getElementById('imagePictureForm');
+        form.method = 'POST';
+        form.enctype = 'multipart/form-data';
+        form.submit();
+      });
+
+      function logOut() {
+        window.location.href = '/auth/logout';
+      }
+  
+      function toggleEditBioModal() {
+      const modal = document.getElementById('editBioModal');
+      modal.classList.toggle('hidden');
+      }
+      function toggleMakePost() {
+        const modal = document.getElementById('makePost');
+        modal.classList.toggle('hidden');
+      }
+    </script>
+  </html>
+  <% } else { %>
+    <a href="/auth/login">Login</a>
+  <% } %>
