@@ -9,28 +9,27 @@
   <h1>Processing Login...</h1>
   <script>
     window.onload = function() {
-      // Extract the access_token and refresh_token from the URL query parameters
       const urlParams = new URLSearchParams(window.location.search);
       const accessToken = urlParams.get('access_token');
       const refreshToken = urlParams.get('refresh_token');
     
-      console.log('Extracted access_token:', accessToken);  // Log to check the token
+      console.log('Extracted access_token:', accessToken); 
       console.log('Extracted refresh_token:', refreshToken);
     
       if (accessToken && refreshToken) {
         fetch('/auth/callback', {
-          method: 'GET',  // Use GET since it's coming from a redirect
+          method: 'GET', 
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            access_token: accessToken,  // Send the access token
-            refresh_token: refreshToken // Optionally send the refresh token
+            access_token: accessToken,
+            refresh_token: refreshToken
           })
         })
         .then(response => {
           if (response.ok) {
-            window.location.href = '/profile';  // Redirect to profile after successful login
+            window.location.href = '/profile';
           } else {
             alert('Login failed');
           }

@@ -47,7 +47,7 @@
                 <img src="https://img.icons8.com/ios-filled/20/ffffff/globe.png" alt="Edit Bio">
                 <span>Edit Bio</span>
               </button>
-              <div id="editBioModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+              <div id="editBioModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
                 <div class="bg-white rounded-lg p-8 w-full max-w-md">
                   <h2 class="text-xl font-semibold mb-4">Edit Bio</h2>
                   <form action="/profile/updateBio" method="POST">
@@ -100,7 +100,7 @@
               <span class="text-xl m-auto">+</span>
             </button>
   
-            <div id="makePost" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div id="makePost" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
               <div class="bg-white rounded-lg p-8 w-full max-w-lg">
                 <div class="flex justify-between items-center mb-4">
                   <h2 class="text-xl font-semibold text-black">Create a Post</h2>
@@ -129,15 +129,27 @@
           <% } %>
   
           <% if (profile.postImages.length > 0) { %>
-          <div class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-8">
-            <% profile.postImages.forEach(function(image) { %>
-              <div class="w-full h-72 overflow-hidden">
-                <img src="<%= image %>" alt="Post Image" class="w-full h-full object-contain">
-              </div>
-            <% }) %>
-          </div>
+            <div class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-8">
+              <% profile.postImages.forEach(function(image) { %>
+                <div class="relative w-full h-72 overflow-hidden">
+                  <img src="<%= image %>" alt="Post Image" class="w-full h-full object-cover z-0">
+                  <% if (isOwner) { %>
+                    <button
+                      class="absolute top-2 right-2 z-10 text-white rounded-full p-2 focus:outline-none transition"
+                      data-image-url="<%- image %>"
+                      onclick="deleteImage(this)"
+                      aria-label="Delete Image"
+                      style="background: rgba(0, 0, 0, 0.5);"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 fill-current" viewBox="0 0 20 20">
+                        <path d="M6 2a1 1 0 00-1 1v1H3v1h14V4h-2V3a1 1 0 00-1-1H6zM5 6v9a2 2 0 002 2h6a2 2 0 002-2V6H5z"/>
+                      </svg>
+                    </button>
+                  <% } %>
+                </div>
+              <% }) %>
+            </div>
           <% } else { %>
-        
             <p class="text-gray-400 text-sm text-center mt-20">
               <%= user.username %> HASN'T POSTED YET
             </p>
@@ -147,6 +159,9 @@
       </div>
     </div>
       <%- include('partials/footer.ejs') %>
+      <% } else { %>
+        <a href="/auth/login">Login</a>
+      <% } %>
     </body>
   
     <script>
@@ -176,8 +191,31 @@
         const modal = document.getElementById('makePost');
         modal.classList.toggle('hidden');
       }
+
+      function deleteImage(button) {
+      const imageUrl = button.getAttribute('data-image-url');
+      console.log('Deleting image:', imageUrl);
+      if (confirm('Are you sure you want to delete this image?')) {
+        fetch('/profile/deleteImage', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ imageUrl }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            location.reload();
+          } else {
+            alert('Error deleting image');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error deleting image');
+        });
+      }
+     }
     </script>
   </html>
-  <% } else { %>
-    <a href="/auth/login">Login</a>
-  <% } %>

@@ -21,13 +21,9 @@
         <%- include('../partials/sidebar.ejs', { user: user, isLoggedIn: isLoggedIn, activeMenu: activeMenu }) %>
         <div class="flex-grow flex items-center justify-center">
             <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
-              <!-- Title -->
               <h2 class="text-xl font-semibold mb-2">LOG IN TO ROBO</h2>
               <p class="text-gray-600 text-sm mb-6">Access your account and start editing.</p>
-          
-              <!-- Form -->
               <form action="/auth/login" method="POST" class="space-y-4">
-                <!-- Email Field -->
                 <div>
                   <label for="email" class="sr-only">Email</label>
                   <input
@@ -40,7 +36,6 @@
                   />
                 </div>
           
-                <!-- Password Field -->
                 <div class="relative">
                   <label for="password" class="sr-only">Password</label>
                   <input
@@ -57,7 +52,6 @@
                   class="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
                   onclick="togglePassword()"
                 >
-                  <!-- Eye Open Icon -->
                   <svg
                     id="eyeOpenIcon"
                     xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +73,6 @@
                       d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                     />
                   </svg>
-                  <!-- Eye Closed Icon -->
                   <svg
                     id="eyeClosedIcon"
                     xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +91,6 @@
                 </button>
                 </div>
           
-                <!-- Log In Button -->
                 <button
                   type="submit"
                   class="w-full bg-blue-500 text-white py-2 rounded text-sm font-medium hover:bg-blue-600"
@@ -107,14 +99,12 @@
                 </button>
               </form>
           
-              <!-- Divider -->
               <div class="flex items-center my-6">
                 <hr class="flex-grow border-gray-300">
                 <span class="mx-3 text-sm text-gray-400">or</span>
                 <hr class="flex-grow border-gray-300">
               </div>
           
-              <!-- Social Buttons -->
               <div class="space-y-3">
                 <button
                   type="button"
@@ -126,7 +116,6 @@
                 </button>
               </div>
           
-              <!-- Don't have an account -->
               <div class="mt-6 text-center">
                 <p class="text-sm text-gray-500">
                   Don't have an account? 

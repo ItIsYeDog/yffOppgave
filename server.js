@@ -10,12 +10,14 @@ const supabase = require('./utils/supabaseClient');
 const multer = require('multer');
 const profileRoutes = require('./routes/profile');
 const globalVariables = require('./middlewares/globalVariables');
+const searchRoutes = require('./routes/search');
 
 
 const PORT = 3000;
 
 app.use(globalVariables);
 
+app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -39,6 +41,7 @@ app.use('/', homeRoutes);
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
 app.use('/uploads', express.static('uploads'));
+app.use('/search', searchRoutes);
 
 
 app.listen(PORT, () => {

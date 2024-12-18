@@ -21,13 +21,9 @@
         <%- include('../partials/sidebar.ejs', { user: user, isLoggedIn: isLoggedIn, activeMenu: activeMenu }) %>
         <div class="flex-grow flex items-center justify-center">
             <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
-              <!-- Title -->
-              <h2 class="text-xl font-semibold mb-2">JOIN ROBO FOR FREE</h2>
+´              <h2 class="text-xl font-semibold mb-2">JOIN ROBO FOR FREE</h2>
               <p class="text-gray-600 text-sm mb-6">Community, tools, and exposure for photographers.</p>
-          
-              <!-- Form -->
               <form action="/auth/register" method="POST" class="space-y-4">
-                <!-- Email Field -->
                 <div>
                   <label for="email" class="sr-only">Email</label>
                   <input
@@ -40,7 +36,6 @@
                   />
                 </div>
           
-                <!-- Password Field -->
                 <div class="relative">
                   <label for="password" class="sr-only">Password</label>
                   <input
@@ -58,7 +53,6 @@
                   class="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
                   onclick="togglePassword()"
                 >
-                  <!-- Eye Open Icon -->
                   <svg
                     id="eyeOpenIcon"
                     xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +74,6 @@
                       d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                     />
                   </svg>
-                  <!-- Eye Closed Icon -->
                   <svg
                     id="eyeClosedIcon"
                     xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +92,6 @@
                 </button>
                 </div>
           
-                <!-- Username Field -->
                 <div>
                   <label for="username" class="sr-only">Username</label>
                   <input
@@ -112,14 +104,12 @@
                   />
                 </div>
           
-                <!-- Terms and Agreement -->
                 <p class="text-gray-500 text-xs">
                   By signing up, you agree to ROBO’s 
                   <a href="#" class="text-blue-600 hover:underline">Terms of Use</a> & 
                   <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a>.
                 </p>
           
-                <!-- Sign Up Button -->
                 <button
                   type="submit"
                   class="w-full bg-black text-white py-2 rounded text-sm font-medium"
@@ -128,14 +118,12 @@
                 </button>
               </form>
           
-              <!-- Divider -->
               <div class="flex items-center my-6">
                 <hr class="flex-grow border-gray-300">
                 <span class="mx-3 text-sm text-gray-400">or</span>
                 <hr class="flex-grow border-gray-300">
               </div>
           
-              <!-- Social Buttons -->
               <div class="space-y-3">
                 <button
                   type="button"
@@ -147,7 +135,6 @@
                 </button>
               </div>
           
-              <!-- Already have an account -->
               <div class="mt-6 text-center">
                 <p class="text-sm text-gray-500">
                   Already have an account? 

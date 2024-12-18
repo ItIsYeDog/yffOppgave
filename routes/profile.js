@@ -4,12 +4,13 @@ const { protectRoute } = require('../middlewares/authMiddleware');
 const UserProfile = require('../models/userProfile');
 const { profileUpload, postUpload } = require('../utils/multerConfig');
 const supabase = require('../utils/supabaseClient');
+const fs = require('fs');
+const path = require('path');
 
 router.get('/:username', protectRoute, async (req, res) => {
     const { username } = req.params;
   
     try {
-      // Fetch the user's profile from Supabase
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('id')
@@ -21,7 +22,6 @@ router.get('/:username', protectRoute, async (req, res) => {
         return res.status(404).send('User profile not found');
       }
   
-      // Fetch the user's profile from MongoDB using the userId
       const userProfile = await UserProfile.findOne({ userId: profileData.id });
   
       if (!userProfile) {
@@ -96,8 +96,6 @@ router.post('/uploadImagePost', protectRoute, postUpload, async (req, res) => {
     });
   }
 
-  console.log('Files uploaded successfully:', req.files.map(file => file.filename));
-
   const imagePostUrls = req.files.map(file => `/uploads/image_post/${file.filename}`);
 
   try {
@@ -106,8 +104,6 @@ router.post('/uploadImagePost', protectRoute, postUpload, async (req, res) => {
       { $push: { postImages: { $each: imagePostUrls } } },
       { new: true, upsert: false }
     );
-
-    console.log('Post images were posted successfully');
 
     req.user.profile = updatedProfile;
 
@@ -145,6 +141,40 @@ router.post('/updateBio', protectRoute, async (req, res) => {
       isLoggedIn: req.isLoggedIn,
       activeMenu: 'profile',
     });
+  }
+});
+
+router.post('/deleteImage', protectRoute, async (req, res) => {
+  const { imageUrl } = req.body;
+
+  if (!imageUrl) {
+    return res.status(400).json({ success: false, message: 'Image URL is required' });
+  }
+
+  const imagePath = path.join(__dirname, '..', imageUrl);
+
+  try {
+    fs.unlink(imagePath, async (err) => {
+      if (err) {
+        console.error('Error deleting image file:', err);
+        return res.status(500).json({ success: false, message: 'Error deleting image file' });
+      }
+
+      const updatedProfile = await UserProfile.findOneAndUpdate(
+        { userId: req.user.id },
+        { $pull: { postImages: imageUrl } },
+        { new: true }
+      );
+
+      console.log('Image deleted successfully');
+
+      req.user.profile = updatedProfile;
+
+      res.json({ success: true });
+    });
+  } catch (error) {
+    console.error('Error deleting image:', error);
+    res.status(500).json({ success: false, message: 'Error deleting image' });
   }
 });
 

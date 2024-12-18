@@ -25,7 +25,6 @@ const protectRoute = async (req, res, next) => {
     await userProfile.save();
   }
 
-  // Fetch username from Supabase
   const { data: profileData, error: profileError } = await supabase
     .from('profiles')
     .select('username')
@@ -40,7 +39,7 @@ const protectRoute = async (req, res, next) => {
 
   req.user = {
     ...authData.user,
-    username: profileData.username, // Attach username
+    username: profileData.username,
     profile: userProfile,
   };
 
